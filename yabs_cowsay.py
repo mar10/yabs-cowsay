@@ -11,7 +11,7 @@ __version__ = "0.0.1"
 logger = logging.getLogger("yabs")
 
 
-def register(plugin_manager, task_base, **kwargs):
+def register(task_base, **kwargs):
 
     logger.info("RUNNING yabs_cowsay.register()")
 

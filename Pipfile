@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [dev-packages]
-# Note: the 'yabs' package is not requiered to implement a Yabs extension.
+# Note: the 'yabs' package is not required to implement a Yabs extension.
 # We include it here only because we want to build yabs-cowsay releases with it.
 yabs = "*"
 
