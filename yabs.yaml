@@ -1,0 +1,81 @@
+# Yabs Workflow Definition
+# See https://github.com/mar10/yabs
+
+file_version: yabs#1
+
+config:
+  repo: 'mar10/yabs-cowsay'
+  gh_auth:
+    oauth_token_var: GITHUB_OAUTH_TOKEN
+  version:
+    - type: __version__        
+      file: yabs_cowsay.py
+  max_increment: minor
+  branches:                 
+    - master
+
+tasks:
+  - task: check
+    branches: master        # Current branch must be in this list
+    can_push: true          # Test if 'git push' would/would not succeed
+    github: true            # GitHub repo name valid and online accessible
+    clean: true             # Repo must/must not contain modifications
+    os: null                # (str, list)
+    python: ">=3.5"         # SemVer specifier
+    twine: true             # `twine` is available
+    up_to_date: true        # everything pulled from remote
+    venv: true              # running inside a virtual environment
+    version: true           # `setup.py --version` returns the configured version
+
+  # - task: exec
+  #   args: ["tox", "-e", "lint"]     # shell command and optional arguments
+  #   always: true            # `true`: run even in dry-run mode
+  #   silent: true            # `true`: suppress output
+
+  # - task: exec
+  #   args: ["tox"]           # shell command and optional arguments
+  #   always: true            # `true`: run even in dry-run mode
+  #   silent: true            # `true`: suppress output
+
+  - task: bump
+    # inc: null               # Use value passed as 'yabs run --inc INC'
+
+  - task: commit
+    add_known: true         # Commit with -a flag
+    message: |
+      Bump version to {version}
+
+  - task: tag
+    name: v{version}
+    message: |
+      Version {version}
+
+  - task: push
+    tags: true          
+
+  - task: pypi_release
+    build:
+      - sdist
+      - bdist_wheel
+    upload: true
+
+  - task: github_release
+    name: 'v{version}'
+    message: |
+      Released {version}
+      [Commit details](https://github.com/{repo}/compare/{org_tag_name}...{tag_name}).
+    draft: true
+    prerelease: null  # null: guess from version number format
+    upload:
+      - sdist
+      - bdist_wheel
+
+  - task: bump
+    inc: postrelease
+
+  - task: commit
+    add_known: true
+    message: |
+      Bump prerelease ({version}) [ci skip]
+
+  - task: push
