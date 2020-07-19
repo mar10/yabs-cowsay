@@ -6,7 +6,7 @@
 import logging
 from textwrap import wrap
 
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 
 logger = logging.getLogger("yabs")
 
