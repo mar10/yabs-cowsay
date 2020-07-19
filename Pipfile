@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[dev-packages]
+# Note: the 'yabs' package is not requiered to implement a Yabs extension.
+# We include it here only because we want to build yabs-cowsay releases with it.
+yabs = "*"
+
+[packages]
+
+[requires]
+
+[pipenv]
+# allow_prereleases = true
