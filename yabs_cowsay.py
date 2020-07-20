@@ -40,6 +40,10 @@ def register(task_base, **kwargs):
 
         def run(self, context):
             opts = self.opts
+            if context.args.no_cowsay:
+                logger.debug("`--no-cowsay` was passed: skipping task.")
+                return True
+
             width = int(opts["width"])
             # Replace `{name}` macros in the message if any:
             message = opts["message"].format(**vars(context))
