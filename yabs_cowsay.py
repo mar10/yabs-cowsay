@@ -40,6 +40,8 @@ def register(task_base, **kwargs):
 
         def run(self, context):
             opts = self.opts
+            # cli_arg = self.cli_arg
+
             if context.args.no_cowsay:
                 logger.debug("`--no-cowsay` was passed: skipping task.")
                 return True
